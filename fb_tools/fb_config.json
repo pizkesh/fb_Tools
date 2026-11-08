@@ -1,0 +1,156 @@
+{ // Preset-File for fb_tools: {charset:ascii, tabs:8, lines:lf, lang:de}
+
+ preset: { // Preset begin	(Fritz!Box Zugangsdaten - Die Keys in "preset" sind frei waehlbar)
+	// # Example begin
+	fbstd:   "http://192.168.178.1",	// Standart-IP (Kurzform)				# "fb_tools fbstd boxinfo"
+	fbata:   {host: "192.168.188.1"},	// Standart-IP (ATA-Modus)				# "fb_tools fbata boxinfo"
+	notfall: {host: "169.254.1.1"},		// ZeroConf-IP (Ohne DHCP)				# "fb_tools notfall boxinfo"
+	beispiel:{host: "fritz.box", pass: "\61\62\63\64\65"},	// Klassisch nur Kennwort (12345)	# "fb_tools beispiel logintest"
+	myfritz: {	sock: "https",				// Verbindung per Fernwartung		# "fb_tools myfritz logintest"
+			host: "0123456789abcdef.myfritz.net",	// DynDNS oder MyFRITZ!-Domain
+			port: 65443,				// Port der Fritz!Box fuer die Fernwartung
+			user: "admin",				// Benutzername mit Fernwartungsrecht
+			pass: "admin123",			// Kennwort
+			uipw: "GOOG LETW OFAC TORA UTHE NTIC ATIO NOTP"}, // Google Authenticator Geheimnis
+	shorty: "https://admin:admin123@0123456789abcdef.myfritz.net:65443#GOOGLETWOFACTORAUTHENTICATIONOTP",	// Einzeiler von "myfritz"
+	"7456": "http://SessionID@home.mengelke.de:8080",	// Fritz!Box Anmeldesimulator v1	"fb_tools 7456 logintest"
+	"7500": "http://SessionID@home.mengelke.de",		// Fritz!Box Anmeldesimulator v2	"fb_tools 7500 logintest"
+	// # Example end
+
+#	// Example begin (Auskommentiert)
+#	meinebox: {
+#		sock: "http",		// -p:	Protokoll (auto, http, https, ssl, tls)
+#		host: "fritz.nas",	// -fb:	IP/DNS-Adresse der Fritz!Box
+#		port: 80,		// -pt:	Port (http -> 80, https -> 443)
+#		user: "max",		// -un:	Benutzername (Oder auch false, bei automatisch erstellter Benutzer - z.B. fritz1337)
+#		pass: "password",	// -pw:	Kennwort
+#		uipw: "",		// -ui:	OS4 Anmelde-Kennwort bei Fernwartung ODER Ab OS6.80+ Zwei-Faktor-Authentisierung (NUR wenn erforderlich)
+#		totp: "",		// -tf:	OS6.80+ Zwei-Faktor-Authentisierung bei Login (ABCD EFGH IJKL MNOP QRST UVWX YZ23 4567)
+#		livs: 0,		// -li:	Login-Version (0 -> Auto, 1 -> MD5, 2 -> PBKDF2)
+#	},
+#	// Example end (Auskommentiert)
+ },	// Preset end
+
+
+
+ drag:	{ // Drag'n'Drop-Modus begin (Was passieren soll, wenn fb_Tools mit einer Datei per Drag'n'Drop gestartet wurde - Die Keys sind Extension)
+	"*":	"info hash *",		// Fuer Unbekannte Dateitypen
+	csv:	"info csv *",		// Texttabellen
+	txt:	"info cat *",		// Plaintext
+	json: 	"info json *",		// Text-Daten
+	tar:	"info extrakt *",	// Archiv (TAR)
+	tbz:	"info extrakt *",	// Archiv (TAR & BZip2)
+	tgz:	"info extrakt *",	// Archiv (TAR & GZip)
+	zip:	"info extrakt *",	// Archiv (ZIP)
+	export:	"konfig fcs * -d",	// Fritz!Box-Konfig Dateien
+ },	// Drag'n'Drop-Modus end
+
+
+
+### Plugin-Einstellungen ###
+ plugin: { // Plugin Voreinstellungen begin
+#	// Example begin (Auskommentiert)
+
+# // SQLDB Plugin begin
+#	sqldb: {
+#		preset: { // Die Keys in "preset" sind frei waehlbar
+#			mydb: {	type: "mysqli",
+#				host: "localhost",
+#				port: 3306,
+#				user: "root",
+#				pass: "",
+#				base: "fb_tools"},
+#			lite: {	type: "sqlite3",
+#				file: "/usr/local/share/fb_tools/sqlite.db"},
+#		}
+#	}, // SQLDB Plugin end
+
+
+
+# // JUIS-Update Plugin
+#	"juis-update": {
+#		preset: {
+#			sn: "/path/.sndb.json.gz" 
+#		}
+#	},
+
+
+
+# // Serial Plugin
+#	serial: {		sn: "/path/.sndb.json.gz" },
+
+#	// Example end (Auskommentiert)
+ }, // Plugin Voreinstellungen end
+
+
+
+### Weitere Auskommentierte Optionen ###
+// Fuer Cron-Dienste im Sicherheits-Modus
+# cron: true,			// Individuelle Einstellungen ("pscm") aktivieren
+# pscm: { char: "7bit", wrap: 0, upda: 0, uport: 443 },	// Diese Einstellungen werden nur bei cron:true gesetzt
+
+// Fuer Exotische Terminals oder Betrieb mit hoehreren Rechten
+# char: "UTF-8",		// Standart-Charset
+# wrap: 0,			// Automatischer Zeilenumbruch deaktivieren
+
+// Nicht nach Hause Telefonieren
+# upda: false,			// Keinen Update-Check
+# uplink: false,		// Keine Verbindung zu MEngelke.de
+
+# cfgall: true,			// Weitere Konfig-Dateien laden
+
+
+
+### fb_Tools Default Konfig ###		//	(Alle Auskommentiert)
+#	sock:	auto,			// -p	Socket: http, https, ssl, tls
+#	host:	"fritz.box",		// -fb	Fritz!Box-Addresse
+#	pass:	"p@ssw0rd",		// -pw	Fritz!Box Kennwort
+#	uipw:	false,			// -ui	Fritz!Box Anmeldekennwort (F!OS 4/5) oder ab F!OS 6: 2FA
+#	user:	false,			// -un	Fritz!Box Username (Optional)
+#	totp:	false,			// -tf	Zweite-Faktor-Authentifizierung (2FA)
+#	fbhp:	"Fritz.Box",		//	Fritz!Box-Angabe
+#	fbnp:	1,			//	Welcher Parameter die Fritz!Box-Angabe enthaelt
+#	port:	80,			// -pt	Fritz!Box HTTP-Port (Normalerweise immer 80)
+#	fiwa:	100,			// -fw	Fritz!Box Firmware (Nur Intern)
+#	livs:	0,			// -li	Login-Version (0 -> Auto, 1 -> MD5, 2 => PBKDF2)
+#	upnp:	[49e3,49443],		// -u	Fritz!Box UPnP-Port (Normalerweise immer 49000)
+#	jsdp:	512,			//	Maximale Verschachtelung beim parsen von JSON-Daten
+#	sbuf:	4096,			// -b	TCP/IP Socket-Buffergroesse oder file-Buffer
+#	tout:	30,			// -t	TCP/IP Socket-Timeout
+#	pcre:	67108864,		//	pcre.backtrack_limit (RegEx)
+#	meli:	134217728,		//	Memory Limit
+#	upda:	864e4,			// -nu	Auto-Update-Check Periode (Kein Update-Check: 0)
+#	uptp:	864e2,			//	Auto-Update-Check Touch-Periode
+#	json:	0,			// -oj	Nutze json_(en/de)code (0: never, 1:try, 2:force)
+#	wrap:	auto,			// -w	Manueller Wortumbruch (Kein Umbruch: 0)
+#	char:	auto,			// -c	Zeichenkodierung der Console (auto/ansi/oem/utf8)
+#	dbfn:	"debug#.txt",		//	Template fuer Debug-Dateien
+#	zone:	"Europe/Berlin",	//	Zeitzone festlegen
+#	fstr:	"%d.%m.%Y %H:%M:%S",	//	%c Lokales Datum & Zeitformat
+#	flog:	"%Y-%m-%d %H:%M:%S",	//	%F %X Logzeit-Format
+#	fstd:	"%d.%m.%Y",		//	%x Lokales Datumsformat
+#	fstt:	"%H:%M:%S",		//	%X Lokales Zeitformat
+#	slct:	de_DE,			//	Locales Datumsformat nach Land festlegen
+#	fesc:	"|<>?*+\"/\\:",		//	Illegale Dateizeichen
+#	frep:	_,			//	Ersetzungszeichen fuer Illegale Dateizeichen
+#	fbtg:	"fbtp_*.php",		//	Plugin Glob-Pattern
+#	fbtm:	"fbtp_([\w-]+)\.php",	//	Plugin Preg_Match-Pattern
+#	fbtp:	plugins,		//	Plugin-Pfad
+#	libs:	libs,			//	PHP-Bibliotheken
+#	argn:	"\w+:\/\/|\w:|[\da-f]{2}:",//	Args-Filter (Wird nur im Hauptscript beachtet)
+#	load:	"_%s.tmp",		//	Temporaerer Download-Namenserweiterung (strftime)
+#	coki:	true,			// -nc	Cookies anzeigen
+#	help:	false,			// -h	Hilfe ausgeben
+#	dbug:	false,			// -d	Debuginfos ausgeben
+#	oput:	false,			// -o	Ausgaben speichern
+#	proxy:	false,			// -px	HTTP-Proxy ohne Authentifizierung (proxy.tld:port)
+#	touch:	".touch",		//	Workaround, wenn fb_Tools nicht schreiben kann/darf
+#	uport:	[443,80],		//	Ports fuer die Update-Verbindung
+#	usrcfg: fb_config,		// -uc	Name der Benutzerkonfiguration
+#	usrsys: "/^(root|systemd?)$/i",	//	Systemuser die häufig für Crondienste benutzt werden
+#	usrfmt:	[json,php],		//	Weitere Unterstuetzte Formate fuer die User-Konfig (In einer Konfigdatei nur Bedingt sinnvoll)
+#	cfgall:	false,			//	Nur die erste Konfig-Datei laden oder ALLE laden
+#	gz:	9,			// -gz	ZIP Deflate Pack Level
+#	strftime:str_ftime,		// -ot	Datumfunktion festlegen
+
+}

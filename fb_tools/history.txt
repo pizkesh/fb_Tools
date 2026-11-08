@@ -1,0 +1,459 @@
+fb_tools (c) GNU GPL 2013-2026 by Michael Engelke <https://www.mengelke.de>
+ This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+V0.48 10.10.2026 (328.900 Bytes)
+ - BUG: Wenn in set für Lampen unsinnige Werte übergeben wurden, führte dies zum PHP-Fehler
+ - BUG: ZIP-Archive wurden fehlerhaft erstellt, wenn das Dateidatum vor 1980 war
+        oder wenn das Archiv mit "enhanced deflating" gepackt wurde
+ - BUG: Request PUT hatte zwischen Header und Body keine Leerzeile gelassen
+ - BUG: Option "-cc" erkannte wegen fehlerhaften RegEx keine Parameter
+ - BUG: Bei TAR-Archiven wurde die Checksumme mit korrekt Initialisiert
+ - BUG: BZip2-Dateien wurden nicht erkannt und konnten nicht gelesen werden
+ - FIX: Weitere Probleme bei der TAR-Archiv erstellung beseitigt
+	und noch weitere verbesserungen eingebaut (Rechte, etc.)
+ - NEU: Option "-u" hinzugefügt, um den UPnP Port ändern zu können
+ - NEU: "ReConnect" kann nun sowohl als UPnP oder als API mit Login ausgeführt werden
+ - "ReConnect" über UPNP erkennt, wenn der Host nicht das Recht dazu hat (Danke an Jens F.)
+ - Interner CSV-Viewer kann jetzt auch mit "-cs:\t" auch "Tabled" Tabellen anzeigen
+ - Downloads erhalten während des Herunterladen einen temporären Dateinamen
+ - Übergebene Parameter werden nun auch Mehrzeilig erkannt
+
+V0.47 17.06.2025 (323.387 Bytes)
+ - BUG: Fehleinträge in der fb_config.json führte zu einer defekten $cfg-Variable
+ - BUG: Bei SmartHome wurden einige "set"-Kommandos nicht erkannt (Danke an Franz D.)
+
+V0.46 01.04.2025 (323.000 Bytes)
+ - BUG: Großgeschriebene UTF-8 Zeichen wurden nicht erkannt
+ - BUG: info strftime lief bei einer Terminal-Breite von 0 Spalten in einer unendlichen Schleife
+ - BUG: Der JSON-Parser konnte ["\\"] nicht parsen
+ - BUG: Ein Konfig-Archiv wurde nicht erkannt
+ - Die fb_Tools initialisierung geändert und in mehreren Phasen aufgeteilt (z.B. werden die Parameter jetzt sehr früh geparst)
+ - Der 1.Parameter (Fritz!Box-Angabe) kann über die Variable $cfg[fbnp] geändert werden (n-ter Parameter)
+   und die Angabe selbst, kann jetzt auch über die Option "-fb" übergeben werden (Dadurch wird die Abfrage im 1. Parameter deaktiviert)
+ - Debug-Meldungen werden nur noch mit aktivierten Debug-Modus generiert
+ - JSON-Parser unterstützt Optional strengere Regeln des JSON-Format (Wird in fb_Tools nicht genutzt)
+ - Name der Benutzer-Konfig kann über die Option -uc geändert werden oder ohne Namen, wird keine Benutzerkonfig geladen
+ - Dateinamen in TAR-Archive können jetzt eine Länge von mehr als 100 Zeichen haben
+ - Die Optionen dürfen mit doppelten Minuszeichen angegeben werden (z.B. für --help oder --version)
+
+V0.45 04.03.2025 (316.800 Bytes)
+ - FIX: SystemStatus für Fiber-Boxen angepasst
+ - FIX: JSON-Parser jetzt neu geschrieben und funktioniert nun zu 100% ohne RegEx
+ - Konfig-Decrypt unterstützt jetzt Fritz!Boxen mit vier Access-Points (z.B. 5690)
+
+V0.44 02.02.2025 (311.250 Bytes)
+ - BUG: Die Variable hinter der Option "-nc" führte zu einem PHP-Fehler
+
+V0.43 01.02.2025 (311.400 Bytes)
+ - BUG: Der Parameter "-cm" war ohne sinnvolle Funktion
+ - NEU: Option "-nc" hinzugefügt, um Cookies zu verbergen
+ - NEU: file-Parameter von GetIP gibt jetzt auch bei der JSON-Ausgabe ein Error-Code bei einer Änderung aus
+        und mit dem Parameter "url" kann man bei einer neuen IP, eine oder mehrere URL(s) aufrufen lassen
+ - SupportCode an das Unwort "Cable-Kabel" angepasst, da scheint jemand von AVM FAN vom Schüttel-Shake zu sein (Danke an: Dominik S.)
+ - Kleine Verbesserung bei der Consolenerkennung im Gesicherten Cron-Modus
+
+V0.42 20.01.2025 (309.480 Bytes)
+ - BUG: Boxinfo funktionierte nicht bei neueren Fritz!Boxen ohne NAS (Danke an Wolfgang N.)
+ - BUG: Konfig2Array: Ein Funktionsaufruf falsch geschrieben 
+ - BUG: JSON-Parser hatte "// Kommentare" mit "/Regulären.Ausdrücken/" verwechselt
+ - BUG: Der CRON-Modus unterdrückte die Ausgabe bei der Option "-cc"
+ - FIX: JSON-Parser: RegEx ignorierte die Anweisung ".*?"
+   (Mit RegEx kann man leider keinen fehlerfreien Parser schreiben - demnächst wird die Funktion neugeschrieben)
+ - NEU: JSON-Parser/Encoder unterstützt die Option "-oj" für die Original PHP-Funktion json_encode / json_decode
+ - NEU: Die Konfig-Datei "fb_config.php" kann jetzt auch als "fb_config.json" übergeben/gefunden werden
+ - NEU: Parameter file von GetIP speichert auch im CSV-Format (Nur Log-Modus) und gibt ein Error-Code bei einem neuen Eintrag
+ - Boxinfo/SystemStatus: Verbesserte Annex-Erkennung bei Fiber Fritz!Boxen
+ - BoxInfo übernimmt weitere Flags von der Login-Seite
+ - Die Beispiele in der Hilfe übernehmen jetzt den 1.Fritz!Box-Parameter (Vorschlag von Wolfgang N.)
+ - Workaround implementiert für Systeme ohne GLOB_BRACE
+
+V0.41 20.09.2024 (301.480 Bytes)
+ - BUG: Crypto-ZIP Archive mit leeren Dateiinhalt wurden als Fehler erkannt
+ - BUG: Ersatzfunktion strftime hatte einige schwere Fehler
+ - BUG: Entwertete UTF8-Zeichen wurden in JSON-Dateien falsch dekodiert
+ - BUG: Zeilenumbruch außerhalb einer Tabellenzelle behoben
+ - FIX: Traffic-Mode an Fritz!OS 7.90+ angepasst
+ - FIX: SystemStatus ist jetzt flexibler und an FritzOS 7.90+ angepasst
+ - FIX: getTraffic gibt jetzt nur noch INT-Werte statt Strings zurück
+ - NEU: Konfigdateien werden vor der Checksumberechnung auf Syntaxfehler untersucht
+ - NEU: Mit "UpTime" kann die Betriebszeit aus der Fritz!Box auslesen
+ - NEU: Eigene strftime-Funktion erweitert und ist jetzt Standard in fb_Tools
+   Die date()-Formate können jetzt auch benutzt werden: strftime("%!r") == date("r")
+   Die Originale strftime()-Funktion kann, wenn noch vorhanden, mit "-ot" erzwungen werden
+   Die Tabelle aus "info strftime" zeigt jetzt mehr Spalten an
+   und die Spalten können mit "-tc:" auf eine Feste Anzahl gesetzt werden
+ - 2FA-OTP Token wird jetzt nach der Uhrzeit von der Fritz!Box generiert
+ - Unterstützung von Oktale-Zeichen in JSON-Dateien
+ - Unterstützung von leeren benannten Argumenten arg:""
+ - SmartHome: Force-Modus "-f" jetzt auch für das "set"-Kommando
+
+V0.40 06.01.2024 (282.128 Bytes)
+ - BUG: Beim Login wurde nur das letzte Status-Flag gespeichert
+ - NEU: Unterstützung für Fritz!DECT 350 (Fensterkontakt)
+ - Weitere verbesserungen an der StrfTime-Ersatzfunktion
+
+V0.39 20.12.2023 (281.173 Bytes)
+ - BUG: Supportdaten wurden nicht korrekt als ZIP-Datei gespeichert
+ - BUG: JSON-Enoder funktionierte nicht ganz korrekt
+ - BUG: Wahlhilfe setzte die Varabeln bei TFA falsch
+ - BUG: Vorgepackte GZip-Daten wurden ohne gz-Extension gespeichert
+ - BUG: StrfTime-Ersatzfunktion hatte einige Formatierungen falsch berechnet
+ - BUG: Der Filter wurde in Ereignisse falsch interpretiert
+ - FIX: SystemStatus wurde bei einer Fiber-Box nicht korrekt erkannt
+ - FIX: Bei Smarthome funktionierte der "Schalt"-Befehl nur bei AVM-Geräten
+ - FIX: Gepackte ZIP-Daten ohne Inhalt wurden als Fehler erkannt
+ - FIX: Die Checksum-prüfung bei TAR Archiven ist jetzt etwas tolleranter
+ - Converter-Modus von Supportdaten überarbeitet
+
+V0.38 01.04.2023 (280.350 Bytes)
+ - BUG: textTable wurde an einigen Stellen nicht korrekt aufgerufen
+ - BUG: Wenn die DECT-Lampe offline war, wurden einige Werte nicht korrekt berechnet und ausgegeben
+ - Tennung von Templates und Aktoren in Smarthome und es können infos von Templates angezeigt werden
+ - Ausgabe kann anonymisiert werden
+
+V0.37 23.03.2023 (280.080 Bytes)
+ - BUG: Konfig-Dateien ließen sich nur in existierene Verzeichnisse aufteilen
+ - BUG: Beim Enschlüsseln von Konfig-Daten wurden Teile leer gelassen
+ - FIX: Komfort-Liste enthielt keinen Abschluss LF
+ - NEU: Unterstützung von Templates, die nicht Aktorbezogen sind
+ - NEU: Wahlhilfe unterstützt Vanity-Codes und verschiedene Variabeln
+
+V0.36 15.02.2023 (276.275 Bytes)
+ - BUG: Konfig-Verzeichnisse ließen sich nicht einlesen
+ - FIX: SupportDaten Extrakt übernahm "'" oder "/" im Dateinamen
+ - FIX: LogIn gab im Fehlerfall keine Fehlermeldung zurück
+ - Für den Cron-Modus können über die Konfig eigene Werte gesetzt werden
+ - textTable berechnete die sichtbaren Tabellen ein Zeichen zu lang
+ - BoxInfo erkennt etwas mehr Flags
+ - Beispielhilfe verbessert
+
+V0.35 23.12.2022 (274.300 Bytes)
+ - BUG: "Login" und "Konfig JSON" führte zu einen PHP-Fehler
+ - BUG: MD5-Content funktionierte nicht
+ - NEU: JSON-Support für AnrufListe, Ereignisse, GetIP und Traffic
+ - Touch-Verhalten geändert
+
+V0.34 20.12.2022 (271.600 Bytes)
+ - BUG: Im Ersten Parameter konnten die OTP-Token nicht gematcht werden
+ - BUG: Der Parameter "Check" von der Update-Funktion wurde ignoriert
+ - NEU: Option -li:[Version] für Login-Version dazugekommen
+ - PHP-Funktion json_encode() mit eigenen JSON-Encoder ersetzt
+ - Vereinfachte Übergabe von OTPAuth ermöglicht (Ohne Anführungszeichen)
+ - OTPauth kann auch direkt als [mode] aufgerufen werden
+ - Content-MD5 wurde nur per hexadezimal und nicht per Base64 überprüft
+
+V0.33 10.12.2022 (268.900 Bytes)
+ - BUG: SmartHome hatte die HSV-Angaben nicht korrekt umgesetzt
+ - BUG: BoxInfo hatte in zwei Fällen verkehrte Werte ausgegeben
+ - FIX: request machte Fehler bei älteren PHP-Versionen
+ - FIX: Pluginliste zeigte jedes Plugin auf dem Mac dreimal an
+ - FIX: Verbesserte Tabellendarstellung bei Komfort & Smarthome
+ - Kleine Verbesserungen an der Ausgabe
+ - Ist der Dateiname gleich ":" wird nichts geschrieben
+
+V0.32 01.12.2022 (268.200 Bytes)
+ - BUG: Es wurde zu spät geprüft, ob die Funktion hash_pbkdf2() vorhanden ist
+ - BUG: Interne Funktion getArg konnte keine "0" als Argument finden
+ - BUG: Der XML-Parser hatte beim Array in der ersten Kette, die Attribute falsch eingeordnet
+ - FIX: Interne Funktion textTable entwertet jetzt Multibyte-Zeichen
+ - FIX: Viele anpassungen an PHP 8.x
+ - FIX: System-Status an Fritz!OS 7.39+ angepasst und Parameter <file> dazu gekommen
+ - FIX: Ereignisse an Fritz!OS 7.39+ angepasst
+ - FIX: Updates für die Windows-version konnten mit https fehlschlagen
+ - FIX: Farbnamen für die Farblampe konnte nicht alle bei älteren PHP Versionen gesetzt werden
+ - NEU: Unterstützung von Vorlagen in Smarthome (Werden mit SET gesetzt)
+ - NEU: Das Plugin OTPAuth ist in fb_Tools eingeflossen (Info OTPauth)
+ - NEU: Volle unterstützung für Zwei-Faktor-Authentisierung mit Option -tf:<otp> (Danke an: Alexander-Palm.de)
+ - NEU: WireGuard Zugangsdaten werden ab Fritz!OS 7.39+ (soweit vorhanden) mit angezeigt
+ - NEU: Option -cm setzt die Variable $cfg['cron'] für den Cron-Modus
+ - NEU: Option -px:[proxy.tld:port] Für Proxy-Requests OHNE Authentisierung
+ - NEU: BoxInfo gibt zusätzlich Login-Informationen aus
+ - NEU: BoxInfo und SystemStatus speichern die RAW-Daten mit der Option -rd:<path>
+ - NEU: ZIP-Support mit Deflate/BZip2 und AES für im-/export von Archiven (ZIPCrypto nur import)
+ - NEU: Komfort-Funktionen Schalten (WLAN / Anrufbeantworter / Rufumleitungen / Weckrufe)
+ - NEU: Kurzschreibweise im 1. Parameter, um eine alternative Konfig nachzuladen: preset-name::/path/fb_config.php
+ - Wahlhilfe an 2FA angepasst
+ - Einfache Unterstützung der Benutzerrechte ab Fritz!OS 5.30+
+ - Hasher hat nun einen eigenen Aufruf bekommen
+ - Verbesserter gzdecode()-Ersatz für PHP4
+ - Eigener Ersatz für strftime(), wenn irgendwann ab PHP 8.2+ die Funktion entfernt wird
+ - WordWrap berücksichtigt Whitespaces am Anfang der Zeile
+ - Drag'n'Drop-Modus verbessert (Es können verschiedene Dateiendungen definiert werden)
+ - SID-Login (Option -s:sidfile) unterstützt jetzt auch das JSON-Format
+
+V0.31 23.05.2021 (210.555 Bytes)
+ - FIX: Fritz!OS 7.24+ reagiert bei SmartHome "simpleonoff" nicht auf "2" (toggle) - Danke an: Klaus M.
+ - BUG: AES-Bibliotheken wurden mit anderen Bibliotheken verwechselt
+ - Force-Modus in SmartHome überarbeitet
+ - Notfalls wird nun unter Linux auch "busybox ttysize" zu rate gezogen, wenn sich die Consolenbreite nicht ermitteln läßt
+ - Verbesserter Login behandlung von Anmeldedaten ohne Benutzer ab Fritz!OS 7.24+
+ - Boxinfo mit Benutzererkennung ab Fritz!OS 7.24+
+ - Info-Funktion um weitere kleine Tools erweitert
+ - Kleine Anpassungen an PHP 8
+
+V0.30 30.03.2021 (207.500 Bytes)
+ - BUG: Es wurde keine Ereignisse gefunden, wenn nicht jede [Ekige] Klammer wieder korrekt geschlossen wurde
+ - BUG: Option -o hat keine Tabellen erstellt
+ - BUG: Auto-Update-Check hatte nicht die Versionsnummer geprüft und die Touch-Datei nicht korrekt angelegt
+ - FIX: Traffic Anpassung an Fritz!OS 7.25
+ - NEU: Option -ps:[Name] Übernimmt die Fritz!Box-Angaben aus der Preset-Liste
+ - NEU: Fast alle Fehlermeldungen geben einen Error-Code zurück (7 verschiedene Gruppen)
+ - fb_config.php kann auch in .fb_config.php umbenannt werden
+ - Ist die Update-Funktion komplett deaktiviert, wird auch keine Hilfe dazu angezeigt
+
+V0.29 16.11.2020 (202.500 Bytes)
+ - BUG: PHP4/5 Speicherzugriffsfehler bei fehlerhaften Regulären Ausdruck
+ - FIX: realpath() unterscheidet bei Windows mit älteren PHP-Versionen nicht zwischen Gross/Kleinschreibung
+ - Bei Logintest gibt es jetzt Debug-Infos 
+ - Aus allen Plugins, fb_config.php und history.txt das CR-Zeichen (\r) entfernt
+
+V0.28 13.11.2020 (203.000 Bytes)
+ - ÄNDERUNG: getevent() gibt nun ein Array zurück
+ - ÄNDERUNG: Optionen können mit den Argumenten vermischt werden (Zusammengeschriebene Optionen [Alte Schreibweise im letzten Parameter] werden jetzt nicht mehr erkannt)
+ - FIX: Option -cs erkennt \t (Tabulator)
+ - FIX: Umlaute in der Konfig wurden nicht decodiert
+ - FIX: Hash() hatte im RAW-Modus fehlerhafte ausgaben erzeugt
+ - NEU: Option -ft:[strftime] für Ereignisse und Anrufliste für eigene Datumsformate
+ - NEU: Plugins können eigene Voreinstellungen bekommen $cfg['plugin'][<Plugin>] = array()
+ - NEU: Interne Funktion file_stream() liest/schreibt Zeilenweise GZip/BZip2-Daten
+ - NEU: Smarthome: Unterstützung für Fritz!DECT 500 und vermutlich auch andere Han-Fun Geräte
+ - NEU: Zugangsdatenübersicht mit Apps, GoogleAuth und um Tickets erweitert
+ - NEU: Traffic-Zähler kann ausgelesen werden
+ - NEU: Unterstützung von PBKDF2-Login ab Fritz!OS 7.24
+ - NEU: Unterstützung von weiteren Hash-Bibliotheken für PHP 4/5
+ - Interne Funktionen ifset(), getArg() erweitert
+ - PHP-Batch für Windows weiter optimiert (Benötigt keine Schleife mehr) - Danke an Peter G.
+ - PHP-Datenbank Erweiterungen (mysqli|sqlite3) werden für das Plugin "SQLDB" erkannt
+ - Der erste Parameter mit der Fritz!Box Angabe akzeptiert Benutzername/Kennwort in Anführungszeichen
+
+V0.27 07.07.2020 (174.244 Bytes)
+ - FIX: Info-Hilfe
+ - FIX: Konfig-Checksum Berechnung und Konfig <-> TAR für Fritz!OS 7.19+ angepasst
+ - FIX: LED für Fritz!OS 7.19+ angepasst und mit weiteren Funktionen
+ - BUG: Ereignis-Filter funktionierten nicht korrekt
+ - BUG: "konfig file" hat TAR-Archive immer mit GZ Komprimiert
+ - NEU: Eingeschränkter BZip-Support
+ - Zugangsdatenübersicht für weitere WLAN-Daten erweitert
+ - Kurzschreibweise $str{$offset} entfernt
+ - Auto-Update Check verbessert (Speichert das Update-Datum entweder im Script, Plugins oder in fb_config.php)
+
+V0.26 23.09.2019 (165.315 Bytes)
+ - BUG: Workaround unwirksam, wenn zlib nicht vorhanden ist
+ - BUG: Benannte Argumente wurden trotz fehlgeschlagener Prüfung akzeptiert
+ - BUG: Konfig File-DeCrypt sucht sich tot, wenn kein richtiges Kennwort angegeben wurde
+ - NEU: Option -cc:[KonfigDatei] dazu gekommen, um eine alternative Benutzerkonfig nachzuladen
+ - NEU: Option -pp:<PluginPath> dazu gekommen, um Plugins in einen alternativen Ordner zu benutzen
+ - Es können jetzt auch einzelne Plugins installiert/aktualisiert werden
+ - Info Extension zeigt jetzt auch zlib an (.gz-Support)
+
+V0.25 11.09.2019 (163.840 Bytes)
+ - BUG: Lokale Benutzer-Konfig konnte nicht gefunden werden
+ - BUG: cfgdecrypt konnte in bestimmen Fällen nicht den AES-Key finden
+ - FIX: Anpassungen an PHP 5.2 und älter vorgenommen
+ - NEU: Plugins: LED und AnrufListe (Call) sind nun bestandteil von fb_tools
+ - NEU: Plugins können nun ohne den Parameter "Plugin" aufgerufen und von fb_tools installiert/aktualisiert werden
+ - NEU: SmartHome für unterstützung für Schaltsteckdosen und Heizregler (Schalten und Daten ermitteln)
+ - NEU: Unterstützung von benannten Argumenten in beliebiger Reihenfolge (pass:admin123 func:export mode:konfig)
+ - NEU: Login über HTTPS mit älteren Fritz!Boxen ermöglicht (Funktioniert nur mit PHP 5.4 - 5.5 / OpenSSL 0.98)
+ - NEU: Konfig File-DeCrypt akzeptiert Password-Listen (Als Datei oder direkt angegegen: pass[,]:foo,bar,admin)
+ - NEU: Kontextbasierte Optionen ermöglicht und Option -ua für User-Agent dazu gekommen und Option -dl umbenannt in -pe
+ - Sämtliche Funktionen können nun GZip-Dateien mit stftime erstellen
+ - Interne Funktionen request(), file_content(), preg_array(), ifset(), listDir() erweitert/ersetzt
+ - Drag'n'Drop-Modus geändert ',' ersetzt durch '*'
+ - Verbesserte Ausgabe von Text-Tabellen
+ - Codepage-Tabellen erweitert und verbessert
+ - Dial wurde in Wahlhilfe umbenannt und unterstützt Telefonbezeichnungen als Angabe für das Telefon
+ - Zur vereinfachung in fast allen Beispielen, die Login-Angabe durch fritz.box ersetzt
+
+V0.24 10.04.2019 (113.090 Bytes)
+ - Bug: Plugins wurden nicht mit Absoluten Pfad gefunden
+ - Bug: SupportDaten konnten ab Fritz!OS 6.8 nicht mit Telemetrie gespeichert werden
+ - Funktion Dial an Fritz!OS 7.1 angepasst
+
+V0.23 01.04.2019 (112.474 Bytes)
+ - Bug: Etliche Anpassungen an PHP 7.x
+ - Bug: Ereignisse konnten ab OS.6.69 nicht gefiltert werden
+ - Bug: Unsinnige Dateigröße wird im Debug-Modus ignoriert
+ - Bug: konfig2array hat Strings, die nicht in Anführungszeichen waren, als Integer interpretiert
+ - Plugin-Aufruf überarbeitet und vereinfacht
+ - Konfig-Decrypt 0.23 ist End-Of-Service und wurde in ein Plugin verbannt (fbtp_konfigdecrypt.php)
+ - Neue Entschlüsselungsfunktion implementiert, die keine Fritz!Box zum entschlüsseln benötigt
+ - Zugangsdatenübersicht erweitert (Diagnose/Wartung, Netzwerkumgebung, TR-64, GUI-Unterordner)
+ - Eigenen UTF-8 En/Decoder implementiert
+ - SystemStatus verbessert (Jetzt mit Bootloader-Hash)
+ - Boxinfo verbessert (Unterstützung von juis_boxinfo.xml)
+ - Option -dl:[extension] dazu gekommen, um ohne rückfrage PHP-Erweiterungen nachzuladen
+ - HTTPS-Requests über die Option -p:https möglich, wenn die PHP-Erweiterung OpenSSL verfügbar ist
+ - Updates werden, wenn möglich, über https abgefragt/heruntergeladen
+
+V0.22 11.04.2017 (102.000 Bytes)
+ - Bug: date.timezone wird nun etwas früher gesetzt
+ - Bug: Ereignisse machte bei deaktivierten wrap Probleme
+ - Bug: Windows-Laufwerksbuchstaben wurden bei Pathangaben entwertet
+ - Bug: SID-Option funktionierte nicht richtig
+ - Neuer Parameter für Login (Speichert SID mit Firmware-Version und Host-Daten)
+
+V0.21 01.04.2017 (100.200 Bytes)
+ - Bug in Anmeldung mit älteren Boxen behoben
+ - Bug in Info StrfTime entfernt, die bei Windows 2000 / XP auftreten
+ - Downloads können auch mit GZip gepackt werden
+ - Erste vorbereitungen getroffen, um FB_Tools außerhalb der Konsole zu betreiben
+
+V0.20 20.03.2017  (98.538 Bytes)
+ - Char-Kodierung: cp65001 (utf8) hinzugefügt
+ - Workaround für PowerShell Erkennung verbessert
+ - GetIP: Filter implemmentiert
+ - Konfig DeCrypt: Internationale Sprachen an OS 6.8 angepasst
+ - Konfig Extract: pattern.txt in index.txt umbenannt
+ - Konfig Extract/File/Import: Unterstützung von gz-Dateien / tar/tgz-Archiven
+ - SupportDaten: Unterstützung von gz-Dateien
+ - SupportDaten Extrakt: Unterstützung von tar/tgz-Archiven
+ - pcre.backtrack_limit von 16 MB auf 64 MB erhöht
+
+V0.19 29.01.2017  (88.947 Bytes)
+ - Bug in Auto-Update-Check beseitigt
+ - Firmware wird nun auch bei Labor-Versionen korrekt erkannt
+ - Ereignisse und Konfig-DeCrypt an OS 6.8 angepasst
+ - Workaround für Konfig-DeCrypt an Fritz!Box 7312 implemmentiert
+ - GetIP unterstützt nun auch DNS und IPv6
+ - Info StrfTime implementiert
+ - Workaround für HTTP-Fehler 503 implementiert
+
+V0.18 20.08.2016  (83.355 Bytes)
+ - Bug: Downloads waren teilweise immer file.bin
+ - Bug: Bei allen HTTP-Requests wurden fehlerhafte HTTP-Header geschickt
+ - Zugangsdatenübersicht an Repeatern angepasst
+ - PHP Extensions werden auch im Unterordner ext gesucht
+ - Char-Kodierung: ASCII hinzugefügt
+
+V0.17 06.08.2016  (83.024 Bytes)
+ - Bug: FRITZ!WLAN Repeater N/G machte probleme beim Login und im Dateinamen
+ - Bug: SID wird nur noch dann gesendet, wenn eine vorhanden ist
+ - Bug: Beim Update unter Linux wurde chmod nicht korrekt gesetzt
+ - Debug-Behandlung verbessert
+ - Optionen-Erkennung etwas verbessert
+ - Timeout für sehr langsame Fritz!Boxen von 3 auf 30 Sekunden erhöht (ist mit -t:<sec> veränderbar)
+ - UpGrade in "info update" umbenannt
+ - Konfig-DeCrypt verbessert (Entschlüsselt auch Kennwörter im Binaer-Bereich der Konfig - Danke für den Hinweis)
+ - Zugangsdatenübersicht mit DECT-eMail erweitert
+ - Supportdaten ünterstützt nun ab OS 6.5 Telemetrie
+ - Alle Neu erstellen Ordner unterstützen strftime im Ordnernamen und können weitere Unterordner enthalten
+
+V0.16 20.07.2016  (79.470 Bytes)
+ - Bug in Drag entfernt (Parameterzähler war falsch)
+ - Bug: Ansi-Ausgabe war nicht Möglich - jetzt auch zusätzlich cp1252, iso8859
+ - Kleine Bugs in Dial und Login/out entfernt
+ - Windows-Version an die PowerShell angepasst und Einschränkung mit 9 Maximalen Parametern aufgehoben
+ - Optionen erweitert - Jetzt können die Optionen auch einzeln übergeben werden
+ - Option -s akzeptiert auch eine Datei, in der sich die SID befindet
+ - Option Hilfe aufgeteilt (Beispiele und Optionen können zusätzlich ausgegeben werden)
+ - Neue Optionen zum Einloggen (-fw, -fb, -un, -pw, -pt) implementiert
+ - Konfig-DeCrypt verbessert (Entschlüsselt auch Konfigurationen mit mehreren Kennwörtern - Danke an Herby007)
+ - Zugangsdatenübersicht für WLAN, VoIP und TR069 verbessert, unnötige Einträge werden in der Übersicht weggelassen
+ - NEU: Ereignisse können ausgelesen und Syncronisiert werden
+ - NEU: SupportDaten können ab OS 6.5 extrahiert werden
+ - Interne Routinen zu Login, Optionen und Konfig geändert bzw. verbessert
+ - Kleines EasterEgg versteckt
+
+V0.15 07.07.2016  (66.023 Bytes)
+ - Bug in der UpGrade-Funktion entfernt (Das Umbenennen war fehlerhaft)
+ - Option -s (sid) erweitert (Damit sind umfangreiche Batch-Dateien möglich)
+ - Option -w (Wortumbruch) erweitert (Unter Windows wird ebenfalls die Consolen-Breite automatisch ermittelt)
+ - Zugangsdaten können auch bei einer Internationalen Fritz!Box (z.B. 4020) ausgelesen/entschlüsselt werden
+ - Verbesserte Fehlermeldung
+ - Auto-Update Check implementiert (Abschaltbar)
+ - Konfig->JSON Konverter implementiert
+ - Request-Download implementiert (z.Z. nur für SupportDaten und Konfig Export)
+ - Debug-Ausgabe erweitert
+ - Plugin-Schnittstelle eingebaut, damit können eigene Script in FB_Tools eingebunden werden (Mit Beispielscript)
+
+V0.14 30.06.2016  (55.495 Bytes)
+ - Bug in der Import-Funktion entfernt
+ - Workaround wenn PHP kein utf8 unterstützt (PHP 7.0 ohne php-xml unter Linux)
+ - Option -c:7bit implementiert (Fallback auf 7Bit wenn PHP kein utf8 unterstützt)
+ - UpGrade zeigt als Gag Cookies an ;-)
+ - Drag'n'Drop-Modus implementiert
+ - Suchfunktion für Zugangsdaten neu entwickelt (Leider auch nicht viel besser...)
+
+V0.13 25.06.2016  (54.254 Bytes)
+ - Bugs mit großeren PHP-Versionen entfernt
+ - Bug in der Konfig-Checksum berechnung entfernt
+ - Arbeitsgeschwindigkeit Optimiert (strtr)
+ - Text-Ausgabe verbessert
+ - Option -d verbessert (Mit Bit-Codierung)
+ - Option -w (Wortumbruch) implementiert (Unter Linux wird die Consolen-Breite automatisch ermittelt)
+ - Option -o (File-Output) implementiert
+ - Option -c:html implementiert
+ - NEU: Fritz!Konfig kann als Ordner im/exportiert werden (Mit Checksum berechnung)
+ - NEU: Alle Zugangsdaten können OHNE Telnet aus der Fritz!Konfig ausgelesen und angezeigt werden
+ - NEU: Die aktuelle Version kann mit dem Internet abgeglichen werden (mit automatischen Update)
+
+V0.12 16.06.2014  (24.748 Bytes)
+ - UPnP-Funktionen ermitteln den Link-Pfad selber
+ - Erste anpassungen für PHP 5.5 (preg_replace -> preg_replace_callback)
+ - Unterstützung von CRYPTEDBINFILE bei Powerline-Konfig
+
+V0.11 17.02.2014  (24.384 Bytes)
+ - Config in Konfig umbenannt
+ - Konfig akzeptiert auch DOS/Windows Dateien
+ - Konfig File implemmentiert
+ - Keine Trennung mehr zwischen Modes mit und ohne Login
+ - Script läuft immer bis zuende durch (Kein DIE oder EXIT mehr)
+ - Bug in Dial behoben (Das Telefon könnte nicht ausgewählt werden)
+
+V0.10 07.01.2014  (21.960 Bytes)
+ - Config Export/Import implementiert (Mit CheckSum berechnung)
+ - Boxinfo implementiert (Jason_Boxinfo.xml)
+ - Interne Request-Funktion erweitert
+ - Weitere kleine Hilfs-Unterfunktionen implemmentiert
+ - Anpassung an PHP 5 für große RegEx-Ergebnisse
+
+V0.09 22.10.2013  (15.398 Bytes)
+ - Info-Option erkennt auch kurzschreibweise
+ - Bug im Dialer behoben: # lässt sich nicht wählen
+ - Externe IP ermittlung der aktuellen Firmware angepasst
+
+V0.08 01.04.2013  (15.254 Bytes)
+ - Hilfe-Ausgabe verbessert
+
+V0.07 30.03.2013  (15.139 Bytes - Intern)
+ - Dial implementiert
+ - Hilfeausgabe weiter verbessert
+
+V0.06 19.03.2013  (13.630 Bytes - Intern)
+ - Automatische ermittung der Kodierung von der Console implementiert
+ - Info implementiert
+
+V0.05 24.02.2013  (12.578 Bytes - Intern)
+ - Interne Request Funktion überarbeitet (POST/Multipart)
+ - SupportDaten implementiert
+ - Option -b (Buffergröße) implementiert
+ - Programmablauf für Login-Funktionen überarbeitet
+
+V0.04 19.02.2013  (10.161 Bytes - Intern)
+ - Kleiner Bug in SystemStatus behoben
+ - Optionen -d (Debug) und -t (Timeout) implementiert
+ - Hilfeausgabe weiter verbessert
+
+V0.03 17.02.2013   (9.029 Bytes - Intern)
+ - Option -c (Kodierung für die Console) implementiert
+ - Option-übergabe implementiert
+ - Hilfeausgabe verbessert
+
+V0.02 10.02.2013   (8.403 Bytes - Intern)
+ - Fehlerverarbeitung verbessert
+ - Interne UPnP-Request Funktion implementiert
+ - GetIP implementiert
+ - Reconnect implementiert
+
+V0.01 07.02.2013   (6.333 Bytes - Intern)
+ - SystemStatus implementiert
+
+V0.00 19.01.2013   (4.920 Bytes - Intern)
+ - Interne Request Funktion implementiert
+ - Login & Logout Funktion implementiert
+ - Einfache Hilfeausgabe implementiert
